@@ -5,7 +5,7 @@ task import: :environment do
   models = [Transaction, InvoiceItem, Item, Invoice, Merchant, Customer]
 
   puts 'Resetting database...'
-
+  
   models.each do |model|
     model.destroy_all
   end
