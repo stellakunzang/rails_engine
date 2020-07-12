@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :customer do
-    first_name { "Kunga" }
-    last_name { "Lhundrup" }
+    first_name { Faker::Artist.name }
+    last_name { Faker::Beer.brand }
   end
-end 
+end
