@@ -29,22 +29,56 @@ describe "Items API" do
     expect(item["data"]["id"]).to eq("#{id}")
   end
 
-  xit "can create a new item" do
+  it "can create a new item" do
     merchant = create(:merchant)
     item_params = {
                     "name": "Polly Pocket",
                     "description": "Nostalgic toy",
                     "merchant_id": "#{merchant.id}",
-                    "unit_price": "45.55"
+                    "unit_price": "499"
                   }
 
     post "/api/v1/items", params: {item: item_params}
 
-    response = JSON.parse(response.body)
-
     expect(response).to be_successful
-    expect(item["data"]["attributes"]["name"]).to eq(item_params["name"])
-    expect(item["data"]["attributes"]["description"]).to eq(item_params["description"])
+
+    body = response.body
+    response = JSON.parse(body)
+
+    expect(response["data"]["attributes"]["name"]).to eq("Polly Pocket")
+    expect(response["data"]["attributes"]["description"]).to eq("Nostalgic toy")
   end
 
+  it "can update an existing item" do
+    id = create(:item).id
+    previous_name = Item.last.name
+    item_params = { "name": "Tomagatchi" }
+
+    put "/api/v1/items/#{id}", params: {item: item_params}
+
+    expect(response).to be_successful
+
+    body = response.body
+    response = JSON.parse(body)
+
+    expect(response["data"]["attributes"]["name"]).to eq("Tomagatchi")
+    expect(response["data"]["attributes"]["name"]).to_not eq("#{previous_name}")
+  end
+
+  it "can destroy an item" do
+    item = create(:item)
+
+    expect{ delete "/api/v1/items/#{item.id}" }.to change(Item, :count).by(-1)
+
+    expect(response).to be_successful
+
+    body = response.body
+    response = JSON.parse(body)
+
+    expect(response).to be_instance_of(Hash)
+    expect(response.keys.first).to eq("data")
+    expect(response["data"]["id"]).to eq("#{item.id}")
+
+    expect{Item.find(item.id)}.to raise_error(ActiveRecord::RecordNotFound)
+  end
 end
