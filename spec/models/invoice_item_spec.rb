@@ -16,7 +16,7 @@ describe InvoiceItem, type: :model do
   describe "class methods" do
     it ".price_to_dollars" do
       invoice_item = create(:invoice_item)
-      expect(invoice_item.unit_price).to eq(123.45)
+      expect(invoice_item.unit_price.class).to eq(Float)
     end
   end
 end
