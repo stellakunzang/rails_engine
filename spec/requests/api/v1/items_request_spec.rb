@@ -29,6 +29,22 @@ describe "Items API" do
     expect(item["data"]["id"]).to eq("#{id}")
   end
 
-  it ""
+  xit "can create a new item" do
+    merchant = create(:merchant)
+    item_params = {
+                    "name": "Polly Pocket",
+                    "description": "Nostalgic toy",
+                    "merchant_id": "#{merchant.id}",
+                    "unit_price": "45.55"
+                  }
+
+    post "/api/v1/items", params: {item: item_params}
+
+    response = JSON.parse(response.body)
+
+    expect(response).to be_successful
+    expect(item["data"]["attributes"]["name"]).to eq(item_params["name"])
+    expect(item["data"]["attributes"]["description"]).to eq(item_params["description"])
+  end
 
 end
