@@ -9,7 +9,7 @@ Rails.application.routes.draw do
         get 'merchant', to: 'items/merchants#show'
       end
       resources :merchants, except: [:new, :edit] do
-        get 'items', to: 'merchants/items#show'
+        get 'items', to: 'merchants/items#index'
       end
 
     end
