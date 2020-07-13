@@ -16,4 +16,7 @@ describe "Item Merchant" do
     expect(items["data"].first["type"]).to eq("item")
     expect(items["data"].length).to eq(5)
   end
+
+  xit "doesn't return items from other merchants" do
+  end 
 end
