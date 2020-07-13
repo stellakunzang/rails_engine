@@ -1,5 +1,5 @@
 FactoryBot.define do
   factory :merchant do
-    name { "Happy Stuff" }
+    name { Faker::Games::Zelda.location }
   end
 end

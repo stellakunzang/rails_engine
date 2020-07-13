@@ -11,4 +11,5 @@ class Item < ApplicationRecord
   def price_to_dollars
     self.unit_price = self.unit_price / 100.00
   end
+
 end
