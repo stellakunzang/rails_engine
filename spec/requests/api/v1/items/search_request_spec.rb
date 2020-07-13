@@ -1,8 +1,11 @@
 require 'rails_helper'
 
 describe "Items Search" do
-  xit "can return a single item" do
+  it "can return a single item" do
     merchant = create(:merchant)
+    5.times do
+      create(:item, merchant: merchant)
+    end
     item1_params = {
                     "name": "Polly Pocket",
                     "description": "Nostalgic toy",
@@ -20,15 +23,13 @@ describe "Items Search" do
     item1 = Item.create(item1_params)
     item2 = Item.create(item2_params)
 
-    get '/api/v1/item/find?description=toy'
+    get '/api/v1/items/find?description=toy'
 
     expect(response).to be_successful
 
     body = response.body
     response = JSON.parse(body)
 
-    binding.pry
-
-    expect(items["data"].count).to eq(2)
+    expect(response["data"].count).to eq(2)
   end
 end
