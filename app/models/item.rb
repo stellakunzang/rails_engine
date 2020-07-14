@@ -9,7 +9,6 @@ class Item < ApplicationRecord
   validates :unit_price, presence: true
 
   def price_to_dollars
-    self.unit_price = self.unit_price / 100.00
+    self.unit_price = self.unit_price / 100.00 if self.unit_price.class != Float
   end
-
 end
