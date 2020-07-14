@@ -6,27 +6,24 @@ describe "Merchants API" do
 
     get '/api/v1/merchants'
 
-    expect(response).to be_successful
+    json = JSON.parse(response.body, symbolize_names: true)
 
-    merchants = JSON.parse(response.body)
+    expect(json[:data].length).to eq(3)
 
-    expect(merchants).to be_instance_of(Hash)
-    expect(merchants.keys.first).to eq("data")
-    expect(merchants["data"]).to be_instance_of(Array)
-    expect(merchants["data"].count).to eq(3)
+    json[:data].each do |merchant|
+      expect(merchant[:type]).to eq("merchant")
+      expect(merchant[:attributes]).to have_key(:name)
+    end
   end
 
   it "can get one merchant by its id" do
-    id = create(:merchant).id
+    merchant = create(:merchant)
 
-    get "/api/v1/merchants/#{id}"
+    get "/api/v1/merchants/#{merchant.id}"
 
-    merchant = JSON.parse(response.body)
-
-    expect(response).to be_successful
-    expect(merchant).to be_instance_of(Hash)
-    expect(merchant.keys.first).to eq("data")
-    expect(merchant["data"]["id"]).to eq("#{id}")
+    json = JSON.parse(response.body, symbolize_names: true)
+    expect(json[:data][:attributes][:id]).to eq(merchant.id)
+    expect(json[:data][:attributes][:name]).to eq(merchant.name)
   end
 
   it "can create a new merchant" do
@@ -34,14 +31,14 @@ describe "Merchants API" do
                     "name": "We Be Toys"
                   }
 
-    post "/api/v1/merchants", params: {merchant: merchant_params}
+    post "/api/v1/merchants", params: merchant_params
 
-    expect(response).to be_successful
+    merchant = Merchant.last
 
-    body = response.body
-    response = JSON.parse(body)
+    json = JSON.parse(response.body, symbolize_names: true)
 
-    expect(response["data"]["attributes"]["name"]).to eq("We Be Toys")
+    new_merchant = json[:data]
+    expect(new_merchant[:attributes][:name]).to eq(merchant.name)
   end
 
   it "can update an existing merchant" do
@@ -49,15 +46,12 @@ describe "Merchants API" do
     previous_name = Merchant.last.name
     merchant_params = { "name": "Toys R Us" }
 
-    put "/api/v1/merchants/#{id}", params: {merchant: merchant_params}
+    put "/api/v1/merchants/#{id}", params: merchant_params
 
-    expect(response).to be_successful
+    json = JSON.parse(response.body, symbolize_names: true)
 
-    body = response.body
-    response = JSON.parse(body)
-
-    expect(response["data"]["attributes"]["name"]).to eq("Toys R Us")
-    expect(response["data"]["attributes"]["name"]).to_not eq("#{previous_name}")
+    expect(json[:data][:attributes][:name]).to eq("Toys R Us")
+    expect(json[:data][:attributes][:name]).to_not eq("#{previous_name}")
   end
 
   it "can destroy an merchant" do
@@ -65,14 +59,11 @@ describe "Merchants API" do
 
     expect{ delete "/api/v1/merchants/#{merchant.id}" }.to change(Merchant, :count).by(-1)
 
-    expect(response).to be_successful
+    json = JSON.parse(response.body, symbolize_names: true)
 
-    body = response.body
-    response = JSON.parse(body)
-
-    expect(response).to be_instance_of(Hash)
-    expect(response.keys.first).to eq("data")
-    expect(response["data"]["id"]).to eq("#{merchant.id}")
+    deleted_merchant = json[:data]
+    expect(deleted_merchant[:attributes][:name]).to eq(merchant.name)
+    expect(deleted_merchant[:attributes][:id]).to eq(merchant.id)
 
     expect{Merchant.find(merchant.id)}.to raise_error(ActiveRecord::RecordNotFound)
   end

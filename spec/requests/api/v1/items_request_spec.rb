@@ -6,27 +6,32 @@ describe "Items API" do
 
     get '/api/v1/items'
 
-    expect(response).to be_successful
+    json = JSON.parse(response.body, symbolize_names: true)
 
-    items = JSON.parse(response.body)
-
-    expect(items).to be_instance_of(Hash)
-    expect(items.keys.first).to eq("data")
-    expect(items["data"]).to be_instance_of(Array)
-    expect(items["data"].count).to eq(3)
+    expect(json[:data].length).to eq(3)
+    json[:data].each do |item|
+      expect(item[:type]).to eq("item")
+      expect(item[:attributes]).to have_key(:name)
+      expect(item[:attributes]).to have_key(:description)
+      expect(item[:attributes]).to have_key(:unit_price)
+      expect(item[:attributes]).to have_key(:merchant_id)
+    end
   end
 
   it "can get one item by its id" do
     id = create(:item).id
+    item = Item.last
 
     get "/api/v1/items/#{id}"
 
-    item = JSON.parse(response.body)
+    json = JSON.parse(response.body, symbolize_names: true)
 
-    expect(response).to be_successful
-    expect(item).to be_instance_of(Hash)
-    expect(item.keys.first).to eq("data")
-    expect(item["data"]["id"]).to eq("#{id}")
+    expect(json[:data][:id]).to eq("#{id}")
+
+    expect(json[:data][:attributes][:name]).to eq(item.name)
+    expect(json[:data][:attributes][:description]).to eq(item.description)
+    expect(json[:data][:attributes][:unit_price]).to eq(item.unit_price)
+    expect(json[:data][:attributes][:merchant_id]).to eq(item.merchant_id)
   end
 
   it "can create a new item" do
@@ -38,15 +43,17 @@ describe "Items API" do
                     "unit_price": "499"
                   }
 
-    post "/api/v1/items", params: {item: item_params}
+    post "/api/v1/items", params: item_params
 
-    expect(response).to be_successful
+    item = Item.last
 
-    body = response.body
-    response = JSON.parse(body)
+    json = JSON.parse(response.body, symbolize_names: true)
 
-    expect(response["data"]["attributes"]["name"]).to eq("Polly Pocket")
-    expect(response["data"]["attributes"]["description"]).to eq("Nostalgic toy")
+    new_item = json[:data]
+    expect(new_item[:attributes][:name]).to eq(item.name)
+    expect(new_item[:attributes][:description]).to eq(item.description)
+    expect(new_item[:attributes][:unit_price]).to eq(item.unit_price)
+    expect(new_item[:attributes][:merchant_id]).to eq(item.merchant_id)
   end
 
   it "can update an existing item" do
@@ -54,15 +61,18 @@ describe "Items API" do
     previous_name = Item.last.name
     item_params = { "name": "Tomagatchi" }
 
-    put "/api/v1/items/#{id}", params: {item: item_params}
+    put "/api/v1/items/#{id}", params: item_params
 
-    expect(response).to be_successful
+    json = JSON.parse(response.body, symbolize_names: true)
 
-    body = response.body
-    response = JSON.parse(body)
+    item = Item.find_by(id: id)
 
-    expect(response["data"]["attributes"]["name"]).to eq("Tomagatchi")
-    expect(response["data"]["attributes"]["name"]).to_not eq("#{previous_name}")
+    updated_item = json[:data]
+    expect(updated_item[:attributes][:name]).to eq(item.name)
+    expect(updated_item[:attributes][:description]).to eq(item.description)
+    expect(updated_item[:attributes][:unit_price]).to eq(item.unit_price)
+    expect(updated_item[:attributes][:merchant_id]).to eq(item.merchant_id)
+    expect(updated_item[:attributes][:name]).to_not eq(previous_name)
   end
 
   it "can destroy an item" do
@@ -70,14 +80,13 @@ describe "Items API" do
 
     expect{ delete "/api/v1/items/#{item.id}" }.to change(Item, :count).by(-1)
 
-    expect(response).to be_successful
+    json = JSON.parse(response.body, symbolize_names: true)
 
-    body = response.body
-    response = JSON.parse(body)
-
-    expect(response).to be_instance_of(Hash)
-    expect(response.keys.first).to eq("data")
-    expect(response["data"]["id"]).to eq("#{item.id}")
+    deleted_item = json[:data]
+    expect(deleted_item[:attributes][:name]).to eq(item.name)
+    expect(deleted_item[:attributes][:description]).to eq(item.description)
+    expect(deleted_item[:attributes][:unit_price]).to eq(item.unit_price)
+    expect(deleted_item[:attributes][:merchant_id]).to eq(item.merchant_id)
 
     expect{Item.find(item.id)}.to raise_error(ActiveRecord::RecordNotFound)
   end
