@@ -29,5 +29,16 @@ describe Item, type: :model do
                           })
       expect(item.unit_price).to eq(30.99)
     end
+
+    it ".price_to_dollars(sad path 2)" do
+      merchant = create(:merchant)
+      item = Item.create({
+                          name: "doll",
+                          description: "sad face",
+                          merchant_id: merchant.id,
+                          unit_price: 3099.0
+                          })
+      expect(item.unit_price).to eq(30.99)
+    end
   end
 end
