@@ -14,4 +14,10 @@ class MerchantRevenue
            .limit(limit)
            .sum('invoice_items.total')
   end
+
+  def total_revenue_by_date(start, stop)
+    Invoice.joins(:transactions, :invoice_items)
+           .where('transactions.result =? AND transactions.created_at BETWEEN ? AND ?', "success", start, stop)
+           .sum('invoice_items.total')
+  end
 end
