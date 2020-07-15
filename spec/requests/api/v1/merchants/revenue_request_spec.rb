@@ -20,7 +20,7 @@ describe "Merchant Revenue" do
       create(:invoice, merchant: merchant)
     end
 
-    total = InvoiceItem.sum(:total)
+    total = InvoiceItem.sum(:total).round(2)
 
     get "/api/v1/merchants/#{merchant.id}/revenue"
 
@@ -31,5 +31,9 @@ describe "Merchant Revenue" do
 
     expect(response["data"]["attributes"]["revenue"]).to be_a(Float)
     expect(response["data"]["attributes"]["revenue"]).to eq(total)
+  end
+
+  it "can calculate total revenue from all merchants across given dates" do
+    
   end
 end
