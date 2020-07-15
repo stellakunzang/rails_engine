@@ -4,7 +4,8 @@ class MerchantRevenueSerializer
   end
 
   def info
-    { "data": {
+    {
+      "data": {
           "id": nil,
           "attributes": {
             "revenue": @revenue
