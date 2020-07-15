@@ -9,6 +9,6 @@ class Api::V1::Merchants::RevenueController < ApplicationController
   def show
     merchant = Merchant.find(params[:merchant_id])
     revenue = MerchantRevenue.new.total_revenue(merchant)
-    render json: MerchantRevenueSerializer.new(merchant, {params: {revenue: revenue }})
+    render json: MerchantRevenueSerializer.new(revenue).info
   end
 end
