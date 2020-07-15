@@ -1,8 +1,15 @@
 class MerchantRevenueSerializer
-  include FastJsonapi::ObjectSerializer
-  attributes :revenue
+  def initialize(revenue)
+    @revenue = revenue
+  end
 
-  attribute :revenue do |object, params|
-    params[:revenue].round(2)
+  def info
+    { "data": {
+          "id": nil,
+          "attributes": {
+            "revenue": @revenue
+          }
+      }
+    }
   end
 end
