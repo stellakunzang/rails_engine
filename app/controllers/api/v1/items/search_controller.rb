@@ -1,14 +1,12 @@
 class Api::V1::Items::SearchController < ApplicationController
 
   def index
-    search = ItemSearch.new(query_params)
-    results = search.results
+    results = Search.new.results(Item, query_params)
     render json: ItemSerializer.new(Item.find(results))
   end
 
   def show
-    search = ItemSearch.new(query_params)
-    result = search.results.first
+    result = Search.new.results(Item, query_params).first
     render json: ItemSerializer.new(Item.find_by(id: result))
   end
 
@@ -20,5 +18,4 @@ class Api::V1::Items::SearchController < ApplicationController
     query_keys.each { |key| query_values << params[key] }
     query_keys.zip(query_values)
   end
-
 end

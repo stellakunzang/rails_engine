@@ -1,6 +1,6 @@
-class InvoiceItem < ApplicationRecord
-  include ActionView::Helpers::NumberHelper
+require "./lib/assets/dollarable"
 
+class InvoiceItem < ApplicationRecord
   before_save :price_to_dollars
   before_save :calculate_total
   belongs_to :item
@@ -10,19 +10,7 @@ class InvoiceItem < ApplicationRecord
   validates :quantity, presence: true
   validates :unit_price, presence: true
 
-  def price_to_dollars
-    if self.unit_price == self.unit_price.to_i
-      unit_price = self.unit_price.to_i
-    else
-      unit_price = self.unit_price
-    end
-
-    if unit_price.class != Float
-      self.unit_price = Money.new(unit_price, "USD")
-    else
-      self.unit_price = unit_price
-    end
-  end
+  include Dollarable
 
   def calculate_total
     self.total = self.quantity * self.unit_price

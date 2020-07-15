@@ -6,6 +6,10 @@ FactoryBot.define do
 
     after :create do |invoice|
       create :transaction, invoice: invoice
-    end 
+    end
+
+    after :create do |invoice|
+      create :invoice_item, invoice: invoice
+    end
   end
 end
