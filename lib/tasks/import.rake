@@ -5,7 +5,7 @@ task import: :environment do
   models = [Transaction, InvoiceItem, Item, Invoice, Merchant, Customer]
 
   puts 'Resetting database...'
-  
+
   models.each do |model|
     model.destroy_all
   end
@@ -19,6 +19,10 @@ task import: :environment do
       model.create!(row.to_h)
     end
     puts "#{model.to_s} data successfully imported!"
+  end
+
+  ActiveRecord::Base.connection.tables.each do |t|
+    ActiveRecord::Base.connection.reset_pk_sequence!(t)
   end
 
   puts 'Nailed it!'
