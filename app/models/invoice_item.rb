@@ -1,6 +1,4 @@
 class InvoiceItem < ApplicationRecord
-  include ActionView::Helpers::NumberHelper
-
   before_save :price_to_dollars
   before_save :calculate_total
   belongs_to :item
