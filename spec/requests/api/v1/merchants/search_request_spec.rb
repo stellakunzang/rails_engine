@@ -1,30 +1,33 @@
 require 'rails_helper'
 
 describe "Merchants Search" do
-  it "can find merchants based on single query" do
-    merchant = Merchant.create!({name: "Toys R Us"})
+  it 'can find a list of merchants that contain a fragment, case insensitive' do
+    Merchant.create!({"name": "Krill King"})
+    Merchant.create!({"name":  "No Frill Grill"})
+    Merchant.create!({"name":  "Dill Pickle World"})
+    Merchant.create!({"name":  "Old Onion Factory"})
 
-    get '/api/v1/merchants/find?name=toy'
+    get '/api/v1/merchants/find_all?name=ILL'
 
-    expect(response).to be_successful
+    json = JSON.parse(response.body, symbolize_names: true)
 
-    body = response.body
-    response = JSON.parse(body)
+    names = json[:data].map do |merchant|
+      merchant[:attributes][:name]
+    end
 
-    expect(response["data"].count).to eq(1)
+    expect(names.sort).to eq(["Dill Pickle World", "Krill King", "No Frill Grill"])
   end
 
-  it "can find items based on mutliple queries" do
-    merchant1 = Merchant.create!({name: "Toys R Us"})
-    merchant2 = Merchant.create!({name: "Dumptrucks R Us"})
+  it 'can find a merchants that contain a fragment, case insensitive' do
+    Merchant.create!({"name": "Krill King"})
 
-    get '/api/v1/merchants/find?name=us'
+    get '/api/v1/merchants/find?name=ILL'
 
-    expect(response).to be_successful
+    json = JSON.parse(response.body, symbolize_names: true)
+  
+    name = json[:data][:attributes][:name].downcase
 
-    body = response.body
-    response = JSON.parse(body)
-
-    expect(response["data"].count).to eq(2)
+    expect(json[:data]).to be_a(Hash)
+    expect(name).to include('ill')
   end
 end

@@ -1,54 +1,19 @@
 require 'rails_helper'
 
 describe "Items Search" do
-  it "can find items based on single query" do
+  it 'can find a list of items that contain a fragment, case insensitive' do
     merchant = create(:merchant)
-    5.times do
-      create(:item, merchant: merchant)
-    end
+
     item1_params = {
-                    "name": "Polly Pocket",
-                    "description": "Nostalgic toy",
+                    "name": "Toy Soldier",
+                    "description": "A lil green dude",
                     "merchant_id": "#{merchant.id}",
                     "unit_price": "499"
                   }
 
     item2_params = {
-                    "name": "Tomagatchi",
-                    "description": "Retro toy",
-                    "merchant_id": "#{merchant.id}",
-                    "unit_price": "599"
-                    }
-
-    item1 = Item.create(item1_params)
-    item2 = Item.create(item2_params)
-
-    get '/api/v1/items/find?description=toy'
-
-    expect(response).to be_successful
-
-    body = response.body
-    response = JSON.parse(body)
-
-    expect(response["data"].count).to eq(2)
-  end
-
-  it "can find items based on mutliple queries" do
-    merchant = create(:merchant)
-    5.times do
-      create(:item, merchant: merchant)
-    end
-
-    item1_params = {
-                    "name": "Polly Pocket",
-                    "description": "Nostalgic toy",
-                    "merchant_id": "#{merchant.id}",
-                    "unit_price": "499"
-                  }
-
-    item2_params = {
-                    "name": "Tomagatchi",
-                    "description": "Retro toy",
+                    "name": "Toyota Truck",
+                    "description": "Retro truck",
                     "merchant_id": "#{merchant.id}",
                     "unit_price": "599"
                     }
@@ -59,17 +24,43 @@ describe "Items Search" do
                     "merchant_id": "#{merchant.id}",
                     "unit_price": "899"
                     }
-    item1 = Item.create(item1_params)
-    item2 = Item.create(item2_params)
-    item3 = Item.create(item3_params)
+    item1 = Item.create!(item1_params)
+    item2 = Item.create!(item2_params)
+    item3 = Item.create!(item3_params)
 
-    get '/api/v1/items/find?description=toy&name=squirt'
+    get '/api/v1/items/find_all?name=toy'
 
-    expect(response).to be_successful
+    json = JSON.parse(response.body, symbolize_names: true)
 
-    body = response.body
-    response = JSON.parse(body)
+    names = json[:data].map do |item|
+      item[:attributes][:name].downcase
+    end
 
-    expect(response["data"].count).to eq(3)
+    expect(names.count).to eq(2)
+    names.each do |name|
+      expect(name).to include('toy')
+    end
+  end
+
+  it 'can find an items that contain a fragment, case insensitive' do
+    merchant = create(:merchant)
+    5.times do
+      create(:item, merchant: merchant)
+    end
+    item_params = {
+                    "name": "Polly Pocket",
+                    "description": "Nostalgic toy",
+                    "merchant_id": "#{merchant.id}",
+                    "unit_price": "499"
+                  }
+
+    Item.create!(item_params)
+
+    get '/api/v1/items/find?name=pocket'
+    json = JSON.parse(response.body, symbolize_names: true)
+    name = json[:data][:attributes][:name].downcase
+
+    expect(json[:data]).to be_a(Hash)
+    expect(name).to include('pocket')
   end
 end
