@@ -24,16 +24,19 @@ describe "Item Merchant" do
     merchant1 = create(:merchant)
     5.times do
       create(:item, merchant: merchant1)
+      create(:invoice, merchant: merchant1)
     end
 
     merchant2 = create(:merchant)
     10.times do
       create(:item, merchant: merchant2)
+      create(:invoice, merchant: merchant2)
     end
 
     merchant3 = create(:merchant)
     3.times do
       create(:item, merchant: merchant3)
+      create(:invoice, merchant: merchant3)
     end
 
     get '/api/v1/merchants/most_items?quantity=3'
