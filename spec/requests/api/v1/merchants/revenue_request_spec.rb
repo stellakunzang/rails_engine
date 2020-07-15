@@ -20,7 +20,7 @@ describe "Merchant Revenue" do
       create(:invoice, merchant: merchant)
     end
 
-    total = InvoiceItem.sum(:total).round(2)
+    total = InvoiceItem.sum(:total)
 
     get "/api/v1/merchants/#{merchant.id}/revenue"
 

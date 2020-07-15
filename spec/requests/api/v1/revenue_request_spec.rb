@@ -12,7 +12,7 @@ describe "Revenue" do
       create(:invoice, merchant: merchant2)
     end
 
-    total = InvoiceItem.sum(:total).round(2)
+    total = InvoiceItem.sum(:total)
 
     get '/api/v1/revenue?start=2020-07-12&end=2020-09-26'
 
