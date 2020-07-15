@@ -24,9 +24,9 @@ describe "Items Search" do
                     "merchant_id": "#{merchant.id}",
                     "unit_price": "899"
                     }
-    item1 = Item.create!(item1_params)
-    item2 = Item.create!(item2_params)
-    item3 = Item.create!(item3_params)
+    Item.create!(item1_params)
+    Item.create!(item2_params)
+    Item.create!(item3_params)
 
     get '/api/v1/items/find_all?name=toy'
 
