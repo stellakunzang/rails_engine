@@ -7,9 +7,9 @@ class MerchantRevenue
   end
 
   def most_revenue(limit)
-    Invoice.joins(:merchant, :transactions, :invoice_items)
+    Invoice.joins(:transactions, :invoice_items)
            .where('transactions.result =?', "success")
-           .group('merchants.id')
+           .group('merchant_id')
            .order('sum(invoice_items.total) desc')
            .limit(limit)
            .sum('invoice_items.total')
@@ -17,7 +17,7 @@ class MerchantRevenue
 
   def total_revenue_by_date(start, stop)
     Invoice.joins(:transactions, :invoice_items)
-           .where('transactions.result =? AND transactions.created_at BETWEEN ? AND ?', "success", start, stop)
+           .where('transactions.result =? AND invoices.created_at BETWEEN ? AND ?', "success", start, stop)
            .sum('invoice_items.total')
   end
 end
