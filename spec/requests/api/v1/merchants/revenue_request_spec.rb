@@ -32,8 +32,4 @@ describe "Merchant Revenue" do
     expect(response["data"]["attributes"]["revenue"]).to be_a(Float)
     expect(response["data"]["attributes"]["revenue"]).to eq(total)
   end
-
-  it "can calculate total revenue from all merchants across given dates" do
-    
-  end
 end
