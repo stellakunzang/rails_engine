@@ -139,7 +139,7 @@ In addition to `index`, `show`, `create`, `update`,  and `destroy`, both Merchan
  
  I put a lot of energy into this aspect of the project and thoroughly enjoyed having the freedom to decide how I thought it best to organize my files and name my variables and methods. In the routes, I utilized namespacing to keep everything clear and tidy, and my controller file structure reflects the nesting closely. 
  
- ![controller_files](public/contoller.png) ![routes](public/routes.png)
+ ![controller](public/controller.png) ![routes](public/routes.png)
  
  Though I had originally created a folder for POROs, I decided to shift to using services because it seemed to more accurately reflect the responsibilites of these classes. I created 3 services which make database calls and parse data on behalf of the controller. I chose not to put these in models because they didn't neatly fit into a single model and I wanted to reserve this folder for models that actually exist in the database. The services are `MerchantItems`, `MerchantRevenue` and `Search`. The latter was especially satisfying because originally I had an `ItemSearch` and `MerchantSearch` that were nearly identical. By passing in the class name as an attribute I was able to make this service more dynamic. In the future, if a search for invoice or transaction was needed, it would be easy to create. On the downside, the search method relies heavily on Ruby instead of ActiveRecord and I will be addressing that in the final section. 
  
