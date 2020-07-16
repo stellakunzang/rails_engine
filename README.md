@@ -16,11 +16,11 @@ In addition to `index`, `show`, `create`, `update`,  and `destroy`, both Merchan
  - Rails 5.2.4.3
  - PostgreSQL
  - Gems
-  * [Fast JSON API](https://github.com/Netflix/fast_jsonapi)(Thanks Netflix!)
-  * [Money](https://github.com/RubyMoney/money)
-  * [Rack CORS Middleware](https://github.com/cyu/rack-cors)
-  * [Factory Bot](https://github.com/thoughtbot/factory_bot_rails)
-  * [Faker](https://github.com/faker-ruby/faker)
+   * [Fast JSON API](https://github.com/Netflix/fast_jsonapi)(Thanks Netflix!)
+   * [Money](https://github.com/RubyMoney/money)
+   * [Rack CORS Middleware](https://github.com/cyu/rack-cors)
+   * [Factory Bot](https://github.com/thoughtbot/factory_bot_rails)
+   * [Faker](https://github.com/faker-ruby/faker)
 
 ## Schema
 
@@ -29,21 +29,31 @@ In addition to `index`, `show`, `create`, `update`,  and `destroy`, both Merchan
 ## Routes + Results
 
 ### Merchants Endpoints
-`GET /api/v1/merchants` - all merchants
+`GET /api/v1/merchants`
+returns all merchants
 
-`POST /api/v1/merchants` - create a new merchant
+`POST /api/v1/merchants`
+create a new merchant by passing required params
 
-`GET /api/v1/merchants/:id` - returns a specified merchant
+`GET /api/v1/merchants/:id`
+returns a specified merchant
 
-`PATCH /api/v1/merchants/:id` - updates a merchant
+`PATCH /api/v1/merchants/:id`
+updates a merchant by passing required params 
 
-`PUT /api/v1/merchants/:id` - updates a merchant
+`PUT /api/v1/merchants/:id`
+updates a merchant by passing required params 
 
-`DELETE /api/v1/merchants/:id` - deletes a merchant
+`DELETE /api/v1/merchants/:id`
+deletes a merchant
 
-`GET /api/v1/merchants/find?{attribute}={value}` - finds a single merchant based on query params. Can search with multiple query params by adding `&{attribute}={value}`
+`GET /api/v1/merchants/find?{attribute}={value}`
+finds a single merchant based on query params
+can search with multiple query params by adding `&{attribute}={value}`
 
-`GET /api/v1/merchants/find_all?{attribute}={value}` - finds all merchants matching query params. Can search with multiple query params by adding `&{attribute}={value}`
+`GET /api/v1/merchants/find_all?{attribute}={value}`
+finds all merchants matching query params
+can search with multiple query params by adding `&{attribute}={value}`
 
 ### Items Endpoints
 `GET /api/v1/items` - all items
