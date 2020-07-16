@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-describe "Items API" do
-  it "sends a list of items" do
+describe 'Items API' do
+  it 'sends a list of items' do
     create_list(:item, 3)
 
     get '/api/v1/items'
@@ -10,7 +10,7 @@ describe "Items API" do
 
     expect(json[:data].length).to eq(3)
     json[:data].each do |item|
-      expect(item[:type]).to eq("item")
+      expect(item[:type]).to eq('item')
       expect(item[:attributes]).to have_key(:name)
       expect(item[:attributes]).to have_key(:description)
       expect(item[:attributes]).to have_key(:unit_price)
@@ -18,7 +18,7 @@ describe "Items API" do
     end
   end
 
-  it "can get one item by its id" do
+  it 'can get one item by its id' do
     id = create(:item).id
     item = Item.last
 
@@ -26,7 +26,7 @@ describe "Items API" do
 
     json = JSON.parse(response.body, symbolize_names: true)
 
-    expect(json[:data][:id]).to eq("#{id}")
+    expect(json[:data][:id]).to eq(id.to_s)
 
     expect(json[:data][:attributes][:name]).to eq(item.name)
     expect(json[:data][:attributes][:description]).to eq(item.description)
@@ -34,16 +34,16 @@ describe "Items API" do
     expect(json[:data][:attributes][:merchant_id]).to eq(item.merchant_id)
   end
 
-  it "can create a new item" do
+  it 'can create a new item' do
     merchant = create(:merchant)
     item_params = {
-                    "name": "Polly Pocket",
-                    "description": "Nostalgic toy",
-                    "merchant_id": "#{merchant.id}",
-                    "unit_price": "499"
-                  }
+      "name": 'Polly Pocket',
+      "description": 'Nostalgic toy',
+      "merchant_id": merchant.id.to_s,
+      "unit_price": '499'
+    }
 
-    post "/api/v1/items", params: item_params
+    post '/api/v1/items', params: item_params
 
     item = Item.last
 
@@ -56,10 +56,10 @@ describe "Items API" do
     expect(new_item[:attributes][:merchant_id]).to eq(item.merchant_id)
   end
 
-  it "can update an existing item" do
+  it 'can update an existing item' do
     id = create(:item).id
     previous_name = Item.last.name
-    item_params = { "name": "Tomagatchi" }
+    item_params = { "name": 'Tomagatchi' }
 
     put "/api/v1/items/#{id}", params: item_params
 
@@ -75,10 +75,10 @@ describe "Items API" do
     expect(updated_item[:attributes][:name]).to_not eq(previous_name)
   end
 
-  it "can destroy an item" do
+  it 'can destroy an item' do
     item = create(:item)
 
-    expect{ delete "/api/v1/items/#{item.id}" }.to change(Item, :count).by(-1)
+    expect { delete "/api/v1/items/#{item.id}" }.to change(Item, :count).by(-1)
 
     json = JSON.parse(response.body, symbolize_names: true)
 
@@ -88,6 +88,6 @@ describe "Items API" do
     expect(deleted_item[:attributes][:unit_price]).to eq(item.unit_price)
     expect(deleted_item[:attributes][:merchant_id]).to eq(item.merchant_id)
 
-    expect{Item.find(item.id)}.to raise_error(ActiveRecord::RecordNotFound)
+    expect { Item.find(item.id) }.to raise_error(ActiveRecord::RecordNotFound)
   end
 end

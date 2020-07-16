@@ -5,7 +5,7 @@ describe MerchantRevenue do
     it '#most_revenue' do
       create_list(:invoice_item, 10)
 
-      list = (MerchantRevenue.new.most_revenue(5)).to_a
+      list = MerchantRevenue.new.most_revenue(5).to_a
 
       list_comparison = list.first[-1] > list.last[-1]
       expect(list_comparison).to eq(true)
@@ -35,14 +35,13 @@ describe MerchantRevenue do
         create(:invoice, merchant: merchant2)
       end
 
-      start = "2020-07-13 00:00:00"
-      stop = "2020-09-26 23:59:59"
+      start = '2020-07-13 00:00:00'
+      stop = '2020-09-26 23:59:59'
 
       expected = InvoiceItem.sum(:total)
       revenue_by_date = MerchantRevenue.new.total_revenue_by_date(start, stop)
 
       expect(expected).to eq(revenue_by_date)
     end
-
   end
 end

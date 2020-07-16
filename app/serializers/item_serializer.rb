@@ -7,5 +7,5 @@ class ItemSerializer
 
   attribute :unit_price do |object|
     object[:unit_price].round(2)
-  end 
+  end
 end

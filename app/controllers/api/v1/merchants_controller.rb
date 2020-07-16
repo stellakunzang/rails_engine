@@ -8,7 +8,7 @@ class Api::V1::MerchantsController < ApplicationController
   end
 
   def create
-     render json: MerchantSerializer.new(Merchant.create(merchant_params))
+    render json: MerchantSerializer.new(Merchant.create(merchant_params))
   end
 
   def update

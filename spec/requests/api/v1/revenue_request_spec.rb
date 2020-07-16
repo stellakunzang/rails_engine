@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-describe "Revenue" do
-  it "can calculate total revenue from all merchants across given dates" do
+describe 'Revenue' do
+  it 'can calculate total revenue from all merchants across given dates' do
     merchant = create(:merchant)
     10.times do
       create(:invoice, merchant: merchant)
@@ -21,6 +21,6 @@ describe "Revenue" do
     body = response.body
     response = JSON.parse(body)
 
-    expect(response["data"]["attributes"]["revenue"]).to eq(total)
+    expect(response['data']['attributes']['revenue']).to eq(total)
   end
 end
