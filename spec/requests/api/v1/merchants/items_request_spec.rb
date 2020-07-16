@@ -17,7 +17,29 @@ describe 'Item Merchant' do
     expect(items['data'].length).to eq(5)
   end
 
-  xit "doesn't return items from other merchants" do
+  it "doesn't return items from other merchants" do
+    merchant = create(:merchant)
+    5.times do
+      create(:item, merchant: merchant)
+    end
+
+    merchant2 = create(:merchant)
+    5.times do
+      create(:item, merchant: merchant2)
+    end
+
+    merchant3 = create(:merchant)
+    5.times do
+      create(:item, merchant: merchant3)
+    end
+
+    get "/api/v1/merchants/#{merchant.id}/items"
+
+    expect(response).to be_successful
+
+    items = JSON.parse(response.body)
+
+    expect(items['data'].length).to eq(5)
   end
 
   it 'can return merchants ranked by total number of items' do
