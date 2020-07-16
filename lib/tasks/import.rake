@@ -1,4 +1,4 @@
-desc "Clear Development database and seed with CSV data."
+desc 'Clear Development database and seed with CSV data.'
 task import: :environment do
   require 'csv'
 
@@ -14,11 +14,11 @@ task import: :environment do
 
   models.reverse.each do |model|
     puts "Importing #{model} data..."
-    CSV.foreach("./data/#{model.to_s}s.csv",
+    CSV.foreach("./data/#{model}s.csv",
                 headers: true, header_converters: :symbol) do |row|
       model.create!(row.to_h)
     end
-    puts "#{model.to_s} data successfully imported!"
+    puts "#{model} data successfully imported!"
   end
 
   ActiveRecord::Base.connection.tables.each do |t|

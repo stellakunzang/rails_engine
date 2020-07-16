@@ -1,5 +1,4 @@
 class Api::V1::Merchants::SearchController < ApplicationController
-
   def index
     results = Search.new.results(Merchant, query_params)
     render json: MerchantSerializer.new(Merchant.find(results))
@@ -18,5 +17,4 @@ class Api::V1::Merchants::SearchController < ApplicationController
     query_keys.each { |key| query_values << params[key] }
     query_keys.zip(query_values)
   end
-
 end

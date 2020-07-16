@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-describe "Item Merchant" do
-  it "can return the merchant for an item" do
+describe 'Item Merchant' do
+  it 'can return the merchant for an item' do
     item = create(:item)
 
     get "/api/v1/items/#{item.id}/merchant"
@@ -10,6 +10,6 @@ describe "Item Merchant" do
 
     merchant = JSON.parse(response.body)
 
-    expect(merchant["data"]["type"]).to eq("merchant")
+    expect(merchant['data']['type']).to eq('merchant')
   end
 end

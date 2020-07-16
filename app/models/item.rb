@@ -1,5 +1,4 @@
-
-require "./lib/assets/dollarable"
+require './lib/assets/dollarable'
 
 class Item < ApplicationRecord
   before_save :price_to_dollars

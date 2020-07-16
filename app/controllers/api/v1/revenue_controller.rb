@@ -9,11 +9,10 @@ class Api::V1::RevenueController < ApplicationController
   private
 
   def beginning_of_day(date)
-    date + " 00:00:00"
+    date + ' 00:00:00'
   end
 
   def end_of_day(date)
-    date + " 23:59:59"
+    date + ' 23:59:59'
   end
-
 end

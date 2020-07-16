@@ -1,5 +1,4 @@
 class Search
-
   def results(class_name, query)
     query_results = []
     query.each do |attribute, search_term|
@@ -7,5 +6,4 @@ class Search
     end
     query_results.flatten.uniq
   end
-
 end

@@ -1,4 +1,4 @@
-require "./lib/assets/dollarable"
+require './lib/assets/dollarable'
 
 class InvoiceItem < ApplicationRecord
   before_save :price_to_dollars
@@ -13,6 +13,6 @@ class InvoiceItem < ApplicationRecord
   include Dollarable
 
   def calculate_total
-    self.total = self.quantity * self.unit_price
+    self.total = quantity * unit_price
   end
 end
