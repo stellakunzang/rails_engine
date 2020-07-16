@@ -17,6 +17,11 @@ task import: :environment do
     CSV.foreach("./data/#{model}s.csv",
                 headers: true, header_converters: :symbol) do |row|
       model.create!(row.to_h)
+      new = model.last
+      if new[:unit_price]!= nil
+        new[:unit_price] = Money.new(new[:unit_price], 'USD')
+        new.save
+      end
     end
     puts "#{model} data successfully imported!"
   end
