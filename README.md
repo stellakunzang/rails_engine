@@ -31,95 +31,95 @@ In addition to `index`, `show`, `create`, `update`,  and `destroy`, both Merchan
 ### Merchants Endpoints
 `GET /api/v1/merchants`
 
-returns all merchants
+ - returns all merchants
 
 `POST /api/v1/merchants`
 
-creates a new merchant by passing required params
+ - creates a new merchant by passing required params
 
 `GET /api/v1/merchants/:id`
 
-returns a specified merchant
+ - returns a specified merchant
 
 `PATCH /api/v1/merchants/:id`
 
-updates a merchant by passing required params 
+ - updates a merchant by passing required params 
 
 `PUT /api/v1/merchants/:id`
 
-updates a merchant by passing required params 
+ - updates a merchant by passing required params 
 
 `DELETE /api/v1/merchants/:id`
 
-deletes a merchant
+ - deletes a merchant
 
 `GET /api/v1/merchants/find?{attribute}={value}`
 
-finds a single merchant based on query params
-can search with multiple query params by adding `&{attribute}={value}`
+ - finds a single merchant based on query params
+ - can search with multiple query params by adding `&{attribute}={value}`
 
 `GET /api/v1/merchants/find_all?{attribute}={value}`
 
-finds all merchants matching query params
-can search with multiple query params by adding `&{attribute}={value}`
+ - finds all merchants matching query params
+ - can search with multiple query params by adding `&{attribute}={value}`
 
 ### Items Endpoints
 `GET /api/v1/items` 
 
-returns all items
+ - returns all items
 
 `POST /api/v1/items`
 
-creates a new item by passing required params
+ - creates a new item by passing required params
 
 `GET /api/v1/items/:id`
 
-returns a specified item
+ - returns a specified item
 
 `PATCH /api/v1/items/:id`
 
-updates an item by passing required params
+ - updates an item by passing required params
 
 `PUT /api/v1/items/:id`
 
-updates an item by passing required params
+ - updates an item by passing required params
 
 `DELETE /api/v1/items/:id`
 
-deletes a merchant
+ - deletes a merchant
 
 `GET /api/v1/items/find?{attribute}={value}`
 
-finds a single item based on query params
-can search with multiple query params by adding `&{attribute}={value}`
+ - finds a single item based on query params
+ - can search with multiple query params by adding `&{attribute}={value}`
 
 `GET /api/v1/items/find_all?{attribute}={value}`
 
-finds all items matching query params
-can search with multiple query params by adding `&{attribute}={value}`
+ - finds all items matching query params
+ - can search with multiple query params by adding `&{attribute}={value}`
 
 ### Relationship Endpoints
 `GET /api/v1/merchants/:merchant_id/items`
 
-returns a list of all the items sold by the specified merchant
+ - returns a list of all the items sold by the specified merchant
 
 `GET /api/v1/items/:item_id/merchant`
 
-returns the merchant that sells the specified item
+ - returns the merchant that sells the specified item
 
 ### Business Intelligence Endpoints
 `GET /api/v1/merchants/most_revenue?quantity={number}`
 
-returns the specified number of merchants ranked by their total revenue
+ - returns the specified number of merchants ranked by their total revenue
 
 `GET /api/v1/merchants/most_items?quantity={number}`
 
-returns the specified number of merchants ranked by how many items they have sold total
+ - returns the specified number of merchants ranked by how many items they have sold total
 
 `GET /api/v1/revenue?start={yyyy-mm-dd}&end={yyyy-mm-dd}`
 
-returns the collective revenue for all merchants between the dates given
+ - returns the collective revenue for all merchants between the dates given
 
 `GET /api/v1/merchants/:merchant_id/revenue`
 
-returns the total revenue for the specified merchant
+ - returns the total revenue for the specified merchant
